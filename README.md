@@ -1,21 +1,45 @@
-# SVJedi-GLR
+# SVJedi-Tag 
 
-SVJedi-GLR is a tool for genotyping inversions using linked-reads data. It is based on the creation of a graph from a reference genome and a VCF file containing the inversions to be genotyped. VG giraffe is then used to map reads onto the graph in order to analyse barcode signals specific to linked-reads and predict genotypes. 
+SVJedi-Tag is a tool for genotyping inversions using linked-reads data. It is based on the creation of a graph from a reference genome and a VCF file containing the inversions to be genotyped. VG giraffe is then used to map reads onto the graph in order to analyse barcode signals specific to linked-reads and predict genotypes. 
+
+
+---
 
 ## Installation
 
+### Packages dependencies
+- VG toolkits (version 1.54.0)
+```
+#VG installation command in a conda environment 
+conda install bioconda::vg
+```
+- GFAGraphs (version 0.3.4) (Warning : GFAGraphs require python version 3.10 or higher and the packages networkx, tharos-pytools, matplotlib, mycolorpy)
+```
+pip install gfagraphs
+
+# If necessary
+pip install networkx
+pip install tharos-pytools
+pip install matplotlib
+pip install mycolorpy
 ```
 
+### Git clone
+```
+# Https 
+https://github.com/MTemperville/SVJedi-Tag.git
+
+# ssh 
+git@github.com:MTemperville/SVJedi-Tag.git
 ```
 
-To test correct installation : 
+### To test correct installation : 
 ```
 bash test.sh 
 ```
 
-### Packages dependencies
-- VG toolkits (version 1.54.0)
-- GFAGraphs (version 0.3.4) (Warning : GFAGraphs require python version 3.10 or higher and the packages networkx, tharos-pytools, matplotlib, mycolorpy)
+
+---
 
 ## Files required 
 
@@ -25,24 +49,18 @@ bash test.sh
 
 #### File specificities : 
 ##### Linked-reads file requierement
-* The barcode must be in the reading header with the tag "BX:Z:".
-* Please note that the header file must not contain tabulations exepted that : 
-*>header [tabulation] BX_tag* 
-* The file requires pre-processing to link the barcode to the reading ID 
 
+The read header must contain the barcode and be in the following format: 
+>headerBX:Z:XXXX
 
-To remove tabs you can use the following bash command:
-```
-sed 's/\t/ /g' <input> > <outup>
-```
-
-To link the barcode to the header ID, you can use the format_fastq.py script with the following line:
+Please note that the header file must not contain tabulations.The *format_fastq.py* script is used to format the file so that the header corresponds to the expected format.
 ```
 python format_fastq.py -q <linked-reads file> -o <linked-reads file pre-processing>
 ```
 
 ##### VCF 
-* The file must be a tabulated file with a standart vcf format :
+* The file must be a tabulated file with a standart vcf format : 
+>#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
 
 *Example:* 
 ```
@@ -71,4 +89,5 @@ python svjedi-glr.py -v <vcf_file.vcf> -r <reference_genome.fa> -q <linked-reads
 We recommend setting a region size greater than the size of the large DNA molecule used in the linked-reads data production protocol.*
 
 ## Contact 
-SVJedi-graph is a Genscale tool developed by Anne Guichard, Mélody Temperville and Claire Lemaitre. For any bug report or feedback, please use the Github Issues form.
+SVJedi-graph is a Genscale tool developed by Mélody Temperville, Anne Guichard and Claire Lemaitre. For any bug report or feedback, please use the Github Issues form.
+
