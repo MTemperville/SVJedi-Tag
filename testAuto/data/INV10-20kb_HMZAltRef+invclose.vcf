@@ -1,0 +1,60 @@
+##fileformat=VCFv4.1
+##fileDate=Fri May 24 13:14:16 2024 (GMT time)
+##source=simuG.pl
+##INFO=<ID=variant_type,Number=1,Type=String,Description="The type of the introduced genomic variant">
+##INFO=<ID=variant_id,Number=1,Type=String,Description="The id of the introduced genomic variant">
+##INFO=<ID=ref_chr,Number=1,Type=String,Description="The reference genome based chromosome ID of the introduced genomic variant">
+##INFO=<ID=ref_start,Number=1,Type=String,Description="The reference genome based start coordinate of the introduced genomic variant">
+##INFO=<ID=ref_end,Number=1,Type=String,Description="The reference genome based end coordinate of the introduced genomic variant">
+##INFO=<ID=sim_chr,Number=1,Type=String,Description="The simulated genome based chromosome ID of the introduced genomic variant">
+##INFO=<ID=sim_start,Number=1,Type=String,Description="The simulated genome based start coordinate of the introduced genomic variant">
+##INFO=<ID=sim_end,Number=1,Type=String,Description="The simulated genome based end coordinate of the introduced genomic variant">
+##INFO=<ID=EVENT,Number=1,Type=String,Description="The event id of the introduced genomic variant">
+##INFO=<ID=SVTYPE,Number=1,Type=String,Description="The type of strucrtural variant">
+##INFO=<ID=END,Number=1,Type=String,Description="The end position of the variant described in this record">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	Genotype_true
+NC_000913.3	39721	.	C	<INV>	.	.	variant_type=INV;variant_id=INV_3;SVTYPE=INV;EVENT=INV_3;END=50170	1/1
+NC_000913.3	52831	.	A	<INV>	.	.	variant_type=INV;variant_id=INV_18;SVTYPE=INV;EVENT=INV_18;END=69117	1/1
+NC_000913.3	69514	.	A	<INV>	.	.	variant_type=INV;variant_id=INV_18;SVTYPE=INV;EVENT=INV_18;END=79117	0/0
+NC_000913.3	292537	.	C	<INV>	.	.	variant_type=INV;variant_id=INV_11;SVTYPE=INV;EVENT=INV_11;END=306829	1/1
+NC_000913.3	696473	.	A	<INV>	.	.	variant_type=INV;variant_id=INV_10;SVTYPE=INV;EVENT=INV_10;END=706828	1/1
+NC_000913.3	707120	.	A	<INV>	.	.	variant_type=INV;variant_id=INV_10;SVTYPE=INV;EVENT=INV_10;END=717828	0/0
+NC_000913.3	745181	.	A	<INV>	.	.	variant_type=INV;variant_id=INV_16;SVTYPE=INV;EVENT=INV_16;END=758968	1/1
+NC_000913.3	786591	.	A	<INV>	.	.	variant_type=INV;variant_id=INV_4;SVTYPE=INV;EVENT=INV_4;END=802728	1/1
+NC_000913.3	1006491	.	C	<INV>	.	.	variant_type=INV;variant_id=INV_17;SVTYPE=INV;EVENT=INV_17;END=1019028	1/1
+NC_000913.3	1041587	.	G	<INV>	.	.	variant_type=INV;variant_id=INV_7;SVTYPE=INV;EVENT=INV_7;END=1052120	1/1
+NC_000913.3	1052863	.	G	<INV>	.	.	variant_type=INV;variant_id=INV_7;SVTYPE=INV;EVENT=INV_7;END=1064120	0/0
+NC_000913.3	1132978	.	C	<INV>	.	.	variant_type=INV;variant_id=INV_2;SVTYPE=INV;EVENT=INV_2;END=1146822	1/1
+NC_000913.3	1295304	.	G	<INV>	.	.	variant_type=INV;variant_id=INV_5;SVTYPE=INV;EVENT=INV_5;END=1309879	1/1
+NC_000913.3	2014909	.	C	<INV>	.	.	variant_type=INV;variant_id=INV_13;SVTYPE=INV;EVENT=INV_13;END=2027808	1/1
+NC_000913.3	2596834	.	G	<INV>	.	.	variant_type=INV;variant_id=INV_15;SVTYPE=INV;EVENT=INV_15;END=2611258	1/1
+NC_000913.3	2703761	.	A	<INV>	.	.	variant_type=INV;variant_id=INV_9;SVTYPE=INV;EVENT=INV_9;END=2722819	1/1
+NC_000913.3	3672463	.	A	<INV>	.	.	variant_type=INV;variant_id=INV_12;SVTYPE=INV;EVENT=INV_12;END=3683323	1/1
+NC_000913.3	3683957	.	A	<INV>	.	.	variant_type=INV;variant_id=INV_12;SVTYPE=INV;EVENT=INV_12;END=3696323	0/0
+NC_000913.3	3684189	.	T	<INV>	.	.	variant_type=INV;variant_id=INV_19;SVTYPE=INV;EVENT=INV_19;END=3703784	1/1
+NC_000913.3	3771125	.	A	<INV>	.	.	variant_type=INV;variant_id=INV_1;SVTYPE=INV;EVENT=INV_1;END=3782423	1/1
+NC_000913.3	3912753	.	T	<INV>	.	.	variant_type=INV;variant_id=INV_6;SVTYPE=INV;EVENT=INV_6;END=3928099	1/1
+NC_000913.3	4077531	.	A	<INV>	.	.	variant_type=INV;variant_id=INV_8;SVTYPE=INV;EVENT=INV_8;END=4093682	1/1
+NC_000913.3	4214083	.	T	<INV>	.	.	variant_type=INV;variant_id=INV_20;SVTYPE=INV;EVENT=INV_20;END=4225071	1/1
+NC_000913.3	4523528	.	C	<INV>	.	.	variant_type=INV;variant_id=INV_14;SVTYPE=INV;EVENT=INV_14;END=4541505	1/1
+NC_000913.3	76063	.	T	<INV>	.	.	variant_type=INV;variant_id=INV_16;SVTYPE=INV;EVENT=INV_16;END=95750	0/0
+NC_000913.3	156466	.	G	<INV>	.	.	variant_type=INV;variant_id=INV_12;SVTYPE=INV;EVENT=INV_12;END=171364	0/0
+NC_000913.3	216212	.	G	<INV>	.	.	variant_type=INV;variant_id=INV_9;SVTYPE=INV;EVENT=INV_9;END=227810	0/0
+NC_000913.3	291551	.	G	<INV>	.	.	variant_type=INV;variant_id=INV_8;SVTYPE=INV;EVENT=INV_8;END=307069	0/0
+NC_000913.3	307240	.	G	<INV>	.	.	variant_type=INV;variant_id=INV_8;SVTYPE=INV;EVENT=INV_8;END=317069	0/0
+NC_000913.3	1264695	.	G	<INV>	.	.	variant_type=INV;variant_id=INV_1;SVTYPE=INV;EVENT=INV_1;END=1280357	0/0
+NC_000913.3	1310584	.	A	<INV>	.	.	variant_type=INV;variant_id=INV_11;SVTYPE=INV;EVENT=INV_11;END=1326108	0/0
+NC_000913.3	1328028	.	T	<INV>	.	.	variant_type=INV;variant_id=INV_20;SVTYPE=INV;EVENT=INV_20;END=1343805	0/0
+NC_000913.3	1434855	.	A	<INV>	.	.	variant_type=INV;variant_id=INV_3;SVTYPE=INV;EVENT=INV_3;END=1453726	0/0
+NC_000913.3	1461457	.	C	<INV>	.	.	variant_type=INV;variant_id=INV_19;SVTYPE=INV;EVENT=INV_19;END=1473044	0/0
+NC_000913.3	1497500	.	C	<INV>	.	.	variant_type=INV;variant_id=INV_4;SVTYPE=INV;EVENT=INV_4;END=1509128	0/0
+NC_000913.3	1535384	.	T	<INV>	.	.	variant_type=INV;variant_id=INV_13;SVTYPE=INV;EVENT=INV_13;END=1550039	0/0
+NC_000913.3	2015574	.	A	<INV>	.	.	variant_type=INV;variant_id=INV_6;SVTYPE=INV;EVENT=INV_6;END=2032365	0/0
+NC_000913.3	2046618	.	G	<INV>	.	.	variant_type=INV;variant_id=INV_15;SVTYPE=INV;EVENT=INV_15;END=2063148	0/0
+NC_000913.3	3117534	.	T	<INV>	.	.	variant_type=INV;variant_id=INV_17;SVTYPE=INV;EVENT=INV_17;END=3134802	0/0
+NC_000913.3	3236780	.	G	<INV>	.	.	variant_type=INV;variant_id=INV_10;SVTYPE=INV;EVENT=INV_10;END=3248838	0/0
+NC_000913.3	3278442	.	G	<INV>	.	.	variant_type=INV;variant_id=INV_5;SVTYPE=INV;EVENT=INV_5;END=3293102	0/0
+NC_000913.3	3358334	.	A	<INV>	.	.	variant_type=INV;variant_id=INV_14;SVTYPE=INV;EVENT=INV_14;END=3374354	0/0
+NC_000913.3	3976212	.	T	<INV>	.	.	variant_type=INV;variant_id=INV_2;SVTYPE=INV;EVENT=INV_2;END=3991308	0/0
+NC_000913.3	4355714	.	T	<INV>	.	.	variant_type=INV;variant_id=INV_18;SVTYPE=INV;EVENT=INV_18;END=4371349	0/0
+NC_000913.3	4612087	.	C	<INV>	.	.	variant_type=INV;variant_id=INV_7;SVTYPE=INV;EVENT=INV_7;END=4631864	0/0
