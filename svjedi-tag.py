@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 #*****************************************************************************
-#  Name: SVJedi-GLR
+#  Name: SVJedi-Tag
 #  Description: Genotyping of SVs with linked-reads data
-#  Copyright (C) 2024 INRIA
+#  Copyright (C) 2025 INRIA
 #  Author: Anne Guichard, Mélody Temperville
 #
 #  This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
 #*****************************************************************************
 
 """
-Module 'svjedi-glr.py': Pipeline of SVJedi-GLR.
+Module 'svjedi-tag.py': Pipeline of SVJedi-Tag.
 """
 
 import sys

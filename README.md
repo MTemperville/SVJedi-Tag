@@ -1,4 +1,6 @@
+
 # SVJedi-Tag 
+[![License](http://img.shields.io/:license-affero-blue.svg)](http://www.gnu.org/licenses/agpl-3.0.en.html) 
 
 SVJedi-Tag is a tool for genotyping inversions using linked-reads data. It is based on the creation of a graph from a reference genome and a VCF file containing the inversions to be genotyped. VG giraffe is then used to map reads onto the graph in order to analyse barcode signals specific to linked-reads and predict genotypes. 
 
@@ -24,13 +26,9 @@ pip install matplotlib
 pip install mycolorpy
 ```
 
-### Git clone
+### Download 
 ```
-# Https 
-https://github.com/MTemperville/SVJedi-Tag.git
-
-# ssh 
-git@github.com:MTemperville/SVJedi-Tag.git
+git https://github.com/MTemperville/SVJedi-Tag.git
 ```
 
 ### To test correct installation : 
@@ -43,7 +41,7 @@ bash test.sh
 
 ## Files required 
 
-* Linked-reads file (.fastq /.fq)
+* Linked-reads file (.fastq /.fq /.fastq.gz /.fa.gz)
 * Variant calling file (.vcf)
 * Reference genome file (.fasta/.fa)
 

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 #*****************************************************************************
-#  Name: SVJedi-GLR
+#  Name: SVJedi-Tag
 #  Description: Genotyping of SVs with linked-reads data
-#  Copyright (C) 2024 INRIA
+#  Copyright (C) 2025 INRIA
 #  Author: Anne Guichard, Mélody Temperville
 #
 #  This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,8 @@ Module 'svjedi-glr.py': Format the linked-reads FASTQ file to keep barcode infor
 
 import sys
 import argparse
+from xopen import xopen
+import re
 
 
 #################
@@ -53,11 +55,22 @@ def main(args):
         required=True)
     args = parser.parse_args()
 
-    file = open(args.outputDir, "w")
+    file = xopen(args.outputDir, "wt")
 
-    with open(args.reads) as sequenceFile:
+    with xopen(args.reads, 'rt') as sequenceFile:
         for line in sequenceFile:
-            file.write(line.replace(" BX:Z:", "BX:Z:"))
+            if line.startswith("@") :
+                header = line.split('\t')[0]
+                res = re.search(r'BX:Z:(\S+)', line)
+                barcode = res.group(1)
+
+                header = "".join(header.split())
+                barcode = "".join(barcode.split())
+                file.write(f'{header+barcode}\n')
+            else : 
+
+                file.write(line)
+                
 
 if __name__ == "__main__":
     if sys.argv == 1:
