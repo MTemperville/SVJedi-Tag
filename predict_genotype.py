@@ -144,8 +144,8 @@ def main(args):
     with open(inputGAF, "r", encoding='UTF-8') as gafFile:
         for line in gafFile:
             
-            #readID, readLen, __, __, __, path, __, pos_start, pos_end, __, alnLen, mapq, *__ = line.split("\t")
-            readID, __, __, readLen, __, __, __, path, __, pos_start, pos_end, __, alnLen, mapq, *__ = line.split("\t")
+            readID, readLen, __, __, __, path, __, pos_start, pos_end, __, alnLen, mapq, *__ = line.split("\t")
+            #readID, __, __, readLen, __, __, __, path, __, pos_start, pos_end, __, alnLen, mapq, *__ = line.split("\t")
             
             #1. Filters to keep only the valid alignments.
             ##############################################
