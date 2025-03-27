@@ -76,14 +76,22 @@ def main(args):
     parser.add_argument(
         "-s",
         "--regionSize",
-        metavar="<regionSize>",
+        metavar="<regionSize (default 10000)>",
         type=int,
-        required=True)
+        required=False,
+        default=10000)
 
     parser.add_argument(
         "-a", 
         "--gaf", 
         metavar="<alignmentGAFFile>", 
+        type=str,
+        required=False)
+    
+    parser.add_argument(
+        "-g", 
+        "--gfa", 
+        metavar="<Graphe File GFA>", 
         type=str,
         required=False)
 
@@ -98,16 +106,24 @@ def main(args):
     script_path = os.path.abspath(__file__)
     script_dir = os.path.dirname(script_path)
 
-    if args.gaf:
-        print("### Mapping of linked-reads onto graph already done ###")
-        outGAF = os.path.abspath(args.gaf)
-        print("Alignment GAF file: " + str(outGAF))
+    if args.gaf or args.gfa :
+        if not args.gaf : 
+            print('### Gaf file (alignement) necessary please use parameter --gaf ###')
+            
+        if not args.gfa : 
+            print('### Gfa file (graphe) necessary please use parameter --gfa ###')
+            
+        else:
+            print("### Mapping of linked-reads onto graph already done ###")
+            outGAF = os.path.abspath(args.gaf)
+            outGFA = os.path.abspath(args.gfa)
+            print("Alignment GAF file: " + str(outGAF))
 
-        #### Analyze barcode signal & Genotype.
-        print("### Analyze barcode signal & Genotype ###")
-        outVCF = outPrefix + "_genotype.vcf"
-        c6 = "python3 {}/predict_genotype.py -a {} -v {} -o {} -s {}".format(script_dir, outGAF, inVCF, outVCF,regionSize)
-        subprocess.run(c6, shell=True, check=True)
+            #### Analyze barcode signal & Genotype.
+            print("### Analyze barcode signal & Genotype ###")
+            outVCF = outPrefix + "_genotype.vcf"
+            c6 = "python3 {}/predict_genotype.py -a {} -v {} -o {} -s {} -g {}".format(script_dir, outGAF, inVCF, outVCF,regionSize, outGFA)
+            subprocess.run(c6, shell=True, check=True)
         
     else:
         #### Create variant graph.

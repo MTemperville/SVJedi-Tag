@@ -102,7 +102,10 @@ def main(args):
                 continue
 
             else:
-                chromID, pos, __, __, alt, __, __, info, *__ = line.rstrip().split("\t")
+                if len(line.rstrip().split("\t")) > 8 :
+                    chromID, pos, __, __, alt, __, __, info, *__ = line.rstrip().split("\t")
+                else : 
+                    chromID, pos, __, __, alt, __, __, info = line.rstrip().split("\t")
                 
                 sv_id += 1
 
