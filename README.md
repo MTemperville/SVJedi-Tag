@@ -1,4 +1,3 @@
-
 # SVJedi-Tag 
 [![License](http://img.shields.io/:license-affero-blue.svg)](http://www.gnu.org/licenses/agpl-3.0.en.html) 
 
@@ -28,10 +27,15 @@ pip install mycolorpy
 
 ### Download 
 ```
-git https://github.com/MTemperville/SVJedi-Tag.git
+git clone https://github.com/MTemperville/SVJedi-Tag.git
 ```
 
-### To test correct installation : 
+### Command to test the correct installation : 
+```
+python svjedi-tag.py -v testAuto/data/inversions_file.vcf -r testAuto/data/e_coli.fna -q testAuto/data/linked-reads.fastq -p testAuto/output_test/tag_test -s 10000 -t 8 
+```
+
+### Automatic test
 ```
 bash test.sh 
 ```
@@ -88,4 +92,3 @@ We recommend setting a region size greater than the size of the large DNA molecu
 
 ## Contact 
 SVJedi-graph is a Genscale tool developed by Mélody Temperville, Anne Guichard and Claire Lemaitre. For any bug report or feedback, please use the Github Issues form.
-

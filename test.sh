@@ -5,6 +5,8 @@ VCF="testAuto/data/inversions_file.vcf"
 REF="testAuto/data/e_coli.fna"
 OUTPUT="testAuto/output_test/tag_test"
 
+rm testAuto/output_test/*
+
 date
 python svjedi-tag.py -v $VCF -r $REF -q $LR -p $OUTPUT -s 10000 -t 8
 
