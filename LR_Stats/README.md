@@ -35,6 +35,5 @@ options:
                         Genome size required to calculate depth
   -r <read_size>, --read_size <read_size>
                         Read size required to calculate depth
-(LREZ) [mtemperville@cl1n020:bam_file] $ 
 
 ```
