@@ -20,9 +20,8 @@ pip install gfagraphs
 
 # If necessary
 pip install networkx
-pip install tharos-pytools
 pip install matplotlib
-pip install mycolorpy
+pip install biopython
 ```
 
 ### Download 
@@ -35,11 +34,32 @@ git clone https://github.com/MTemperville/SVJedi-Tag.git
 python svjedi-tag.py -v testAuto/data/inversions_file.vcf -r testAuto/data/e_coli.fna -q testAuto/data/linked-reads.fastq -p testAuto/output_test/tag_test -s 10000 -t 8 
 ```
 
+If the installation is successful, the files: *tag_test_analysis.txt, tag_test_chromDict.pickle, tag_test.dist, tag_test_genotype.vcf, tag_test.gfa, tag_test.giraffe.gbz, tag_test.min, tag_test_vgGiraffe.gaf*,  will appear in the *testAuto/output_test/* folder.
+
+
 ### Automatic test
 ```
 bash test.sh 
 ```
+If the installation is successful, you will get the following output in the terminal :
 
+```
+### Create variant graph ###
+### Index graph ###
+[vg autoindex] Executing command: vg autoindex --workflow giraffe -g testAuto/output_test/tag_test.gfa -p testAuto/output_test/tag_test
+[IndexRegistry]: Checking for haplotype lines in GFA.
+[IndexRegistry]: Constructing VG graph from GFA input.
+[IndexRegistry]: Constructing XG graph from VG graph.
+[IndexRegistry]: Constructing a greedy path cover GBWT
+[IndexRegistry]: Constructing GBZ using NamedNodeBackTranslation.
+[IndexRegistry]: Constructing distance index for Giraffe.
+[IndexRegistry]: Constructing minimizer index.
+### Map linked-reads on graph ###
+### Analyze barcode signal & Genotype ###
+W - Could not use memorylock on this platform
+Same graphs
+Same  VCF
+```
 
 ---
 
@@ -86,9 +106,48 @@ python svjedi-glr.py -v <vcf_file.vcf> -r <reference_genome.fa> -q <linked-reads
 
 **Warning:** The linked-reads file must be pre-processing to link BX tag to the header.
 
+### Paramters
+```
+svjedi-tag.py [-h] -v <inputVCF> -r <referenceGenome> -q <queryReads> -p <outFilesPrefix> [-t <threadNumber>] [-s <regionSize (default 10000)>] [-a <alignmentGAFFile>] [-g <Graphe File GFA>]
+
+options:
+  -h, --help        Show this help message and exit
+  -v, --vcf         Input VCF with structural variants to be genotyped
+  -r, --ref         Reference genome 
+  -q, --reads       Linked-reads file
+  -p, --prefix      Output prefix 
+  -t, --threads     Number of thread used
+  -s, --regionSize  Region genotyping lenght (default 10000)
+  -a, --gaf         GAF file
+  -g, --gfa         GFA file
+
+```
+
+**Input VCF:**
+The file must contain the inversions to be genotyped. It may also contain other types of structural variants that could have an impact on the genotyping of the inversions because of their position close to the breakpoints of the inversions.
+
 **Region_size parameter:**
 *Genotyping is based on an analysis of barcodes in upstream and downstream regions and on the structure variant. The **region size** must be fixed. 
 We recommend setting a region size greater than the size of the large DNA molecule used in the linked-reads data production protocol.*
+
+## Output files
+
+#### Output VCF 
+SVJedi-Tag's output is a vcf file containing all the genotype inversions. It contains a *SAMPLE* column containing the predicted genotype and genotyping information.
+
+GT : Genotype
+DP : Number of barcode in the breakpoints regions
+AD : Number of barcode supporting the absence of inversion, Number of barcode supporting the presence of inversion, Number of non-informative barcode.
+AF : Allelic ratio
+
+```
+Example : 
+GT:DP:AD:AF	1/1:159:0,99,60:1.0 
+```
+#### GFA file
+The GFA file is a graph constructed from the reference genome and the intput VCF file. It can be used to restart SVJedi-Tag by skipping the graph creation step.
+#### GAF file 
+The GFA file is the VG Girafe alignment output file which aligns the linked reading to the graph. It can be used to restart SVJedi-Tag by skipping the alignment step.
 
 ## Contact 
 SVJedi-graph is a Genscale tool developed by Mélody Temperville, Anne Guichard and Claire Lemaitre. For any bug report or feedback, please use the Github Issues form.
