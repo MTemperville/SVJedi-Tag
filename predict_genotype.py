@@ -288,6 +288,7 @@ def main(args):
                         outVCF.write(new_line + "\n")
 
         analysisFile.close()
+        print(f"Done. Output genotypes in file {outputVCF}")
 
 
 #############

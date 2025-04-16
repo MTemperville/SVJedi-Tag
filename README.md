@@ -22,6 +22,7 @@ pip install gfagraphs
 pip install networkx
 pip install matplotlib
 pip install biopython
+pip install tharos-pytools
 ```
 
 ### Download 
@@ -31,6 +32,7 @@ git clone https://github.com/MTemperville/SVJedi-Tag.git
 
 ### Command to test the correct installation : 
 ```
+mkdir -p testAuto/output_test
 python svjedi-tag.py -v testAuto/data/inversions_file.vcf -r testAuto/data/e_coli.fna -q testAuto/data/linked-reads.fastq -p testAuto/output_test/tag_test -s 10000 -t 8 
 ```
 
@@ -56,9 +58,10 @@ If the installation is successful, you will get the following output in the term
 [IndexRegistry]: Constructing minimizer index.
 ### Map linked-reads on graph ###
 ### Analyze barcode signal & Genotype ###
-W - Could not use memorylock on this platform
-Same graphs
-Same  VCF
+Done. Output genotypes in file testAuto/output_test/tag_test_genotype.vcf
+### Testing SVJedi-Tag ###
+Test-graph:PASS
+Test-VCF:PASS
 ```
 
 ---
