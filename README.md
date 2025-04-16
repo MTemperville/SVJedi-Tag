@@ -1,7 +1,7 @@
 # SVJedi-Tag 
 [![License](http://img.shields.io/:license-affero-blue.svg)](http://www.gnu.org/licenses/agpl-3.0.en.html) 
 
-SVJedi-Tag is a tool for genotyping inversions using linked-read data. It is based on the analysis of the distribution of barcode signals on either sides of inversion breakpoints, with inversions being represented in a variation graph. The variation graph is built from a reference genome and a VCF file containing the inversions to be genotyped. VG giraffe is then used to map the sample reads onto the graph. Then, for each inversion, SVJedi-Tag analyzes the barcode signals of reads aligned on each side of the inversion breakpoints to estimate its allelic ratio and predict its genotype. 
+SVJedi-Tag is a tool for genotyping inversions using linked-read data. It is based on the analysis of the distribution of barcode signals on either sides of inversion breakpoints, with inversions being represented in a variation graph. The variation graph is built from a reference genome and a VCF file containing the inversions to be genotyped. [VG giraffe](https://github.com/vgteam/vg/wiki/Mapping-short-reads-with-Giraffe) is then used to map the sample reads onto the graph. Then, for each inversion, SVJedi-Tag analyzes the barcode signals of reads aligned on each side of the inversion breakpoints to estimate its allelic ratio and predict its genotype. 
 
 
 ---
@@ -9,7 +9,8 @@ SVJedi-Tag is a tool for genotyping inversions using linked-read data. It is bas
 ## Installation
 
 ### Packages dependencies
-- VG toolkits (version 1.54.0)
+- VG toolkits (version >1.54.0)
+  
 ```
 #VG installation command in a conda environment 
 conda install bioconda::vg
@@ -68,21 +69,23 @@ Test-VCF:PASS
 
 ---
 
-## Files required 
+## Input Files 
 
 * Linked-reads file (.fastq /.fq /.fastq.gz /.fa.gz)
 * Variant calling file (.vcf)
 * Reference genome file (.fasta/.fa)
 
 #### File specificities : 
-##### Linked-reads file requierement
+##### Linked-read file requirement
 
-The read header must contain the barcode and be in the following format: 
+The sequence of each read should not contain the barcode sequence. The barcode information must be present in the header of each read in the following format (no space before the barcode): 
 >headerBX:Z:XXXX
 
-Please note that the header file must not contain tabulations.The *format_fastq.py* script is used to format the file so that the header corresponds to the expected format.
+Please note that the full headers must not contain any tabulation. 
+
+The `format_fastq.py` script can be used to format the file so that the headers correspond to the expected format.
 ```
-python format_fastq.py -q <linked-reads file> -o <linked-reads file pre-processing>
+python format_fastq.py -q <initial linked-read file> -o <formated linked-reads file>
 ```
 
 ##### VCF 
@@ -103,13 +106,13 @@ LG1	2287235	INV2	N	<INV>	.	.	END=3287234;SVTYPE=INV;SVSIZE=1000000
 LG1	4393271	INV3	N	<INV>	.	.	END=5393270;SVTYPE=INV;SVSIZE=1000000
 ```
 
-## Run tools
+## Command line and parameters
 
 ```
 python svjedi-glr.py -v <vcf_file.vcf> -r <reference_genome.fa> -q <linked-reads_file.fastq> -p <output_path/prefix> -s <region_size> -t <thread>
 ```
 
-**Warning:** The linked-reads file must be pre-processing to link BX tag to the header.
+**Warning:** The linked-read file must be pre-processed to link BX tag to the header.
 
 ### Paramters
 ```
@@ -132,27 +135,27 @@ options:
 The file must contain the inversions to be genotyped. It may also contain other types of structural variants that could have an impact on the genotyping of the inversions because of their position close to the breakpoints of the inversions.
 
 **Region_size parameter:**
-*Genotyping is based on an analysis of barcodes in upstream and downstream regions and on the structure variant. The **region size** must be fixed. 
-We recommend setting a region size greater than the size of the large DNA molecule used in the linked-reads data production protocol.*
+Genotyping is based on the analysis of barcodes in regions from either side of both inversion breakpoints. The **size** of these regions (in bp) is fixed by the `-s`(`--regionSize`) parameter.   
+We recommend setting a region size similar to the average size of the large DNA molecules obtained with the linked-read data production protocol (default value = 10,000 bp).
 
 ## Output files
 
 #### Output VCF 
-SVJedi-Tag's output is a vcf file containing all the genotype inversions. It contains a *SAMPLE* column containing the predicted genotype and genotyping information.
+SVJedi-Tag's output is a vcf file containing all the input inversions associated to their genotype. It contains a *SAMPLE* column containing the predicted genotypes and genotyping information.
 
-GT : Genotype
-DP : Number of barcode in the breakpoints regions
-AD : Number of barcode supporting the absence of inversion, Number of barcode supporting the presence of inversion, Number of non-informative barcode.
-AF : Allelic ratio
+- GT : Genotype, assuming a diploid individual: either `0/0`, `0/1`, or `1/1`. A `./.` value indicates a missing value due to an insufficient number of informative barcodes in the breakpoint regions.
+- DP : Total number of distinct barcodes in the breakpoints regions
+- AD : Number of barcodes supporting the absence of the inversion, Number of barcodes supporting the presence of the inversion, Number of non-informative barcodes.
+- AF : Alternative allele ratio
 
 ```
 Example : 
 GT:DP:AD:AF	1/1:159:0,99,60:1.0 
 ```
 #### GFA file
-The GFA file is a graph constructed from the reference genome and the intput VCF file. It can be used to restart SVJedi-Tag by skipping the graph creation step.
+The GFA file contains the graph (in GFA format) constructed from the reference genome and the intput VCF file. It can be used to restart SVJedi-Tag by skipping the graph creation step.
 #### GAF file 
-The GFA file is the VG Girafe alignment output file which aligns the linked reading to the graph. It can be used to restart SVJedi-Tag by skipping the alignment step.
+The GFA file is the VG Giraffe output file (in GAF format), it contains the read alignments to the graph. It can be used to restart SVJedi-Tag by skipping the alignment step.
 
 ## Contact 
-SVJedi-graph is a Genscale tool developed by Mélody Temperville, Anne Guichard and Claire Lemaitre. For any bug report or feedback, please use the Github Issues form.
+SVJedi-graph is a [Genscale](https://team.inria.fr/genscale/) tool developed by Mélody Temperville, Anne Guichard and Claire Lemaitre. For any bug report or feedback, please use the Github Issues form.
