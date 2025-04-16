@@ -15,8 +15,8 @@
 ##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
 ##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Cumulated depth accross samples (sum)">
 ##FORMAT=<ID=AD,Number=3,Type=Integer,Description="Depth of each allele by sample (allele0, allele1, alleleNA)">
-##FORMAT=<ID=Alt Allele Freq,Number=1,Type=Integer,Description="Alternative allelic frequency">
-#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	Genotype_true	FORMAT	SAMPLE
+##FORMAT=<ID=AF,Number=1,Type=Float,Description="Alternative allelic frequency">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	SAMPLE
 NC_000913.3	39721	.	C	<INV>	.	.	variant_type=INV;variant_id=INV_3;SVTYPE=INV;EVENT=INV_3;END=50170	GT:DP:AD:AF	1/1:159:0,99,60:1.0
 NC_000913.3	52831	.	A	<INV>	.	.	variant_type=INV;variant_id=INV_18;SVTYPE=INV;EVENT=INV_18;END=69117	GT:DP:AD:AF	1/1:137:0,97,40:1.0
 NC_000913.3	69514	.	A	<INV>	.	.	variant_type=INV;variant_id=INV_18;SVTYPE=INV;EVENT=INV_18;END=79117	GT:DP:AD:AF	0/0:68:30,0,38:0.0

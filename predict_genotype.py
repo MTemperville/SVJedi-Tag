@@ -227,8 +227,9 @@ def main(args):
                 outVCF.write('##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">\n')
                 outVCF.write('##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Cumulated depth accross samples (sum)">\n')
                 outVCF.write('##FORMAT=<ID=AD,Number=3,Type=Integer,Description="Depth of each allele by sample (allele0, allele1, alleleNA)">\n')
-                outVCF.write('##FORMAT=<ID=Alt Allele Freq,Number=1,Type=Integer,Description="Alternative allelic frequency">\n')
-                outVCF.write(line.rstrip("\n") + "\t" + "\t".join(["FORMAT", "SAMPLE"]) + "\n")
+                outVCF.write('##FORMAT=<ID=AF,Number=1,Type=Float,Description="Alternative allelic frequency">\n')
+                #outVCF.write(line.rstrip("\n") + "\t" + "\t".join(["FORMAT", "SAMPLE"]) + "\n")
+                outVCF.write("#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	SAMPLE\n")
 
             else:
                 # For each SV of the input VCF file, get the corresponding SV object.
