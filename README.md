@@ -1,7 +1,7 @@
 # SVJedi-Tag 
 [![License](http://img.shields.io/:license-affero-blue.svg)](http://www.gnu.org/licenses/agpl-3.0.en.html) 
 
-SVJedi-Tag is a tool for genotyping inversions using linked-reads data. It is based on the creation of a graph from a reference genome and a VCF file containing the inversions to be genotyped. VG giraffe is then used to map reads onto the graph in order to analyse barcode signals specific to linked-reads and predict genotypes. 
+SVJedi-Tag is a tool for genotyping inversions using linked-read data. It is based on the analysis of the distribution of barcode signals on either sides of inversion breakpoints, with inversions being represented in a variation graph. The variation graph is built from a reference genome and a VCF file containing the inversions to be genotyped. VG giraffe is then used to map the sample reads onto the graph. Then, for each inversion, SVJedi-Tag analyzes the barcode signals of reads aligned on each side of the inversion breakpoints to estimate its allelic ratio and predict its genotype. 
 
 
 ---
@@ -36,7 +36,9 @@ mkdir -p testAuto/output_test
 python svjedi-tag.py -v testAuto/data/inversions_file.vcf -r testAuto/data/e_coli.fna -q testAuto/data/linked-reads.fastq -p testAuto/output_test/tag_test -s 10000 -t 8 
 ```
 
-If the installation is successful, the files: *tag_test_analysis.txt, tag_test_chromDict.pickle, tag_test.dist, tag_test_genotype.vcf, tag_test.gfa, tag_test.giraffe.gbz, tag_test.min, tag_test_vgGiraffe.gaf*,  will appear in the *testAuto/output_test/* folder.
+If the installation is successful, several files have been created in the directory `testAuto/output_test/`:
+- the output file with predicted genotypes: `tag_test_genotype.vcf`
+- intermediate files: `tag_test_analysis.txt`, `tag_test_chromDict.pickle`, `tag_test.dist`, `tag_test.gfa`, `tag_test.giraffe.gbz`, `tag_test.min`, `tag_test_vgGiraffe.gaf`.
 
 
 ### Automatic test
