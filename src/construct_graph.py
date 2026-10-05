@@ -27,7 +27,7 @@ Module 'construct_graph_classes.py': Create the GFA graph file.
 import sys
 import pickle
 from collections import OrderedDict
-from Bio import SeqIO
+from pysam import FastxFile
 from . import Chrom, SV
 
 
@@ -80,10 +80,9 @@ def main(args):
     #A. For each chrom of the reference genome, create a Chrom object.
     ###################################################################
     chromDict = {}
-    with open(reference_fasta, "r", encoding='UTF-8') as refFile:
-        for record in SeqIO.parse(refFile, "fasta"):
-            chr_id, chr_seq = str(record.id), str(record.seq)
-            chromDict[chr_id] = Chrom(chr_id, chr_seq)
+    with FastxFile(reference_fasta) as refFile:
+        for record in refFile:
+            chromDict[record.name] = Chrom(record.name, record.sequence)
 
     #####################################################
     #B. For each SV of the VCF file, create a SV object.
