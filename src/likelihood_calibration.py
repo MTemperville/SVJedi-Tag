@@ -1,30 +1,30 @@
-import argparse
+#!/usr/bin/env python3
+
 import sys
-import pickle
 import re
 import random
 import statistics 
 import matplotlib.pyplot as plt
 import math
 from decimal import *
-import ast
-import seaborn as sns
-import numpy as np
 
 
-def main() :
-    """ Main method """
-    parser = argparse.ArgumentParser()
+def add_subparser(subparsers):
+    p = subparsers.add_parser("likelihood-calibration", help="calibrate genotype likelihoods")
+    p.add_argument( "--gaf", metavar="<alignment file>", help="", type=str, required=True)
+    p.add_argument( "--gfa", metavar="<variation graph file>", help="", type=str, required=True)
+    p.add_argument( "-w", metavar="<Windows size>", help="", type=int, required=True)
+    p.add_argument( "-n", metavar="<Number of windows>", help="number of interest region/error rate", type=int, default=100)
+    p.add_argument( "--regionssizesIn", help="regions sizes for region in window", type=int, default=10000)
+    p.add_argument( "--regionssizesOut", help="regions sizes for region out window", type=int, default = 10000)
+    p.add_argument( "-p", "--plot", metavar="path/plot.png", type=str, default = "Histogramme_error")
+    p.set_defaults(func=main, _parser = p)
 
-    parser.add_argument( "--gaf", metavar="<alignment file>", help="", type=str, required=True)
-    parser.add_argument( "--gfa", metavar="<variation graph file>", help="", type=str, required=True)
-    parser.add_argument( "-w", metavar="<Windows size>", help="", type=int, required=True)
-    parser.add_argument( "-n", metavar="<Number of windows>", help="number of interest region/error rate", type=int, default=100)
-    parser.add_argument( "--regionssizesIn", help="regions sizes for region in window", type=int, default=10000)
-    parser.add_argument( "--regionssizesOut", help="regions sizes for region out window", type=int, default = 10000)
-    parser.add_argument( "-p", "--plot", metavar="path/plot.png", type=str, default = "Histogramme_error")
+def main(args):
+    if len(sys.argv) == 2:   # no args
+        args._parser.print_help()
+        sys.exit(1)
 
-    args = parser.parse_args()
     inputGAF = args.gaf
     inputGFA = args.gfa
     windows_nb = args.n
@@ -110,7 +110,7 @@ def main() :
                 if not chr.startswith('scaffold'):
                     all_nodes.append(node)
     #print(all_nodes)
-    print("#Take node from GFA : Done")
+    print("#Take node from GFA : Done", file = sys.stderr)
     #'''
     # 2. Create windows and regions
     #avoid_pos = [["LG1",8342182,33487673],["LG2",14083320,20869940],["LG3",7486933,13829649],["LG4",1088816,7995568], ["LG4",22421881,25145365],["LG4",30622035,31991919], ["LG5",15940464,32665323] ] 
@@ -147,7 +147,7 @@ def main() :
             else :
                 #dico_windows[node].append({"bk" : (bk1,bk2), "regions":[cR1, cR2, cR3, cR4], "R1":set(),"R2":set(),"R3":set(),"R4":set()})
                 dico_windows[node].append({"bk" : (bk1,bk2), "regions":[cR1, cR2, cR3, cR4], "R1":{},"R2":{},"R3":{},"R4":{}})
-    print("#Create windows and regions : Done")
+    print("#Create windows and regions : Done", file = sys.stderr)
 
     #print(f"CW\t{list_w_chr}")
     #print(f"NW\t{list_w_node}")
@@ -245,7 +245,7 @@ def main() :
             #             windows["R3"].add(barcodeID)
             #         if r4[0]< pos_start and r4[1]> pos_end :
             #             windows["R4"].add(barcodeID)
-    print("#Parse GAF file : Done")
+    print("#Parse GAF file : Done", file = sys.stderr)
 
 
     # 4. Compare bx lists
@@ -349,8 +349,8 @@ def main() :
             # else :
             #     w = w -1 
 
-    print(f"B\tWindows with less 10bc:",filt_10bc)
-    print(f"W\tTotal windows use to estimated:", w)
+    print(f"B\tWindows with less 10bc:",filt_10bc, file = sys.stderr)
+    print(f"W\tTotal windows use to estimated:", w, file = sys.stderr)
     #print(f"BC\t{nb_bc_count}")
     #print(f"ALN\t{nb_aln_count}")
 
@@ -360,7 +360,7 @@ def main() :
         median_error = statistics.median(list_errors_rates)
         std_error = statistics.stdev(list_errors_rates)
 
-        print(f"E\tMean:{mean_error}\tStd:{std_error}\tMedian:{median_error}")
+        print(f"E\tMean:{mean_error}\tStd:{std_error}\tMedian:{median_error}", file = sys.stderr)
 
         #5. Calculate the likelihood diff with the error estimate
         list_diff = []
@@ -380,7 +380,7 @@ def main() :
         #6. Create plot
         plot_creation(list_errors_rates, plot,windows_Size,w,size_ro, size_ri, mean_error,std_error,mean_diff,median_error)
     else :
-        print("No windows with error rate above of 0.8 and/or a minimum number of 2 barcodes per regions and/or minimum 10 informatifs barcodes")
+        print("No windows with error rate above of 0.8 and/or a minimum number of 2 barcodes per regions and/or minimum 10 informatifs barcodes", file = sys.stderr)
 
     #print(f"BCL\t{list_errors_rates}")
     if len(list_errors_rates_bc) != 0 :
@@ -393,14 +393,3 @@ def main() :
 
     #print("#All : Done")
     #print("nb reads tot", n, "nb unmap", x)
-#Run function main
-if __name__ == "__main__":
-    if sys.argv == 1:
-        sys.exit("Error: missing arguments")
-
-    else:
-        main(sys.argv[1:])
-
-
-
-

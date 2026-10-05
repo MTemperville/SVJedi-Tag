@@ -1,25 +1,26 @@
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=80"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "svjedi-tag"
 version = "1.1.0"
-
-[project.scripts]
-svjedi-tag = "svjedi_tag:main"
-LR_STATS = "lr_stats:main"
-svjedi-tag_likelihood-calibration = "likelihood_calibration:main"
-
-[tool.setuptools]
-py-modules = [
-    "svjedi_tag",
-    "classes_creationGFA",
-    "construct_graph",
-    "predict_genotype",
-    "lr_stats",
-    "likelihood_calibration"  
+dependencies = [
+    'pysam',
+    'networkx',
+    'prettytable',
+    'wcwidth',
+    'pandas',
+    'seaborn',
+    'tharos-pytools',
 ]
 
-[tool.setuptools.package-dir]
-"" = "src"
+[project.scripts]
+svjedi-tag = "src.__main__:main"
+
+
+[tool.setuptools.packages.find]
+include = ["src"]
+
+[tool.setuptools.package-data]
+svjedi-tag = ["src/*"]

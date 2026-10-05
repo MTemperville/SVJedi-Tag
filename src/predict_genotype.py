@@ -21,63 +21,47 @@
 #*****************************************************************************
 
 """
-Module 'predict_genotype.py': Process the barcodes signal to genotype the SVs.
+Process the barcodes signal to genotype the SVs.
 """
 
-from __future__ import print_function
-import argparse
-import os
+#import argparse
 import re
 import sys
 import pickle
 import math
-import statistics                   #analysis
 from decimal import Decimal
-
 
 from collections import deque
 from collections import defaultdict
 
-
-#from pgGraphs.graph import Graph
-from gfagraphs.graph import Graph
-#from pgGraphs.abstractions import Orientation
-from gfagraphs.abstractions import Orientation
+from .graph import Graph, Orientation
 
 #pylint: disable=line-too-long, disable=trailing-whitespace, disable=too-many-function-args
 
-#################
-# Main function.
-#################
-
-def main(args):
-    """
-    Main method
-    """
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
+def add_subparser(subparsers):
+    p = subparsers.add_parser("predict", help="Process the barcodes signal to genotype the SVs")
+    p.add_argument(
         "-a",
         "--gaf",
         metavar="<alignmentGAFFile>",
         type=str,
         required=True)
 
-    parser.add_argument(
+    p.add_argument(
         "-g",
         "--gfa",
         metavar="<GrapheGFAFile>",
         type=str,
         required=True)
 
-    parser.add_argument(
+    p.add_argument(
         "-v",
         "--vcf",
         metavar="<inputVCF>",
         type=str,
         required=True)
     
-    parser.add_argument(
+    p.add_argument(
         "-s",
         "--regionSize",
         metavar="<regionSize>",
@@ -85,7 +69,7 @@ def main(args):
         required=False,
         default=10000)
 
-    parser.add_argument(
+    p.add_argument(
         "-i",
         "--inaccuracy",
         metavar="<Breakpoint inaccuracy in bp>",
@@ -93,14 +77,14 @@ def main(args):
         required=False,
         default = 0)
 
-    parser.add_argument(
+    p.add_argument(
         "-o", 
         "--output", 
         metavar="<outputVCF>", 
         type=str,
         required=True)
     
-    parser.add_argument(
+    p.add_argument(
         "-d", 
         "--likelihood_min_diff", 
         metavar="<Min difference between two bigger likelihood>", 
@@ -108,15 +92,24 @@ def main(args):
         required=False,
         default=20)
     
-    parser.add_argument(
+    p.add_argument(
         "-e",
         "--likelihood_ProbError", 
         metavar="Genotype likelihood probability error according to inversion size (Low (<25kb), Medium (25kb<=...<50kb), High (50kb<=...<100kb), Very high (>=100kb))", 
         type=float,
         nargs=4,
         default=[0.2,0.1,0.02,0.008])
+    p.set_defaults(func=main, _parser=p)
 
-    args = parser.parse_args()
+
+#################
+# Main function.
+#################
+
+def main(args):
+    if len(sys.argv) == 2:   # no args
+        args._parser.print_help()
+        sys.exit(1)
 
     inputGFA = args.gfa
     inputGAF = args.gaf
@@ -133,13 +126,7 @@ def main(args):
     with open(pickleFile, "rb") as pf:
         chromDict = pickle.load(pf)
 
-    gfa_graph:Graph = Graph(
-        gfa_file=inputGFA,
-        with_sequence=False,
-        with_reverse_edges=True,
-        low_memory=False,
-    )
-    gfa_graph.compute_orientations()
+    gfa_graph:Graph = Graph(gfa_file=inputGFA)
 
     svsDict = {}
     gfaNode2svRegionsDict = {}
@@ -345,7 +332,7 @@ def main(args):
                         outVCF.write(new_line + "\n")
 
         #analysisFile.close()
-        print(f"Done. Output genotypes in file {outputVCF}")
+        print(f"Done. Output genotypes in file {outputVCF}", file = sys.stderr)
 
 
 #############
@@ -739,13 +726,3 @@ def get_statistics(nbBarc_support_alleles, nbAlns_support_alleles, adjLeft_barco
 
     return nbBarc_total, nbAlns_total, nbBarc_adjLeft, nbBarc_adjRight, nbBarc_nodeSVbegin, nbBarc_nodeSVend, nbAlns_adjLeft, nbAlns_adjRight, nbAlns_nodeSVbegin, nbAlns_nodeSVend #, minOccPerBarcode_adjLeft, minOccPerBarcode_adjRight, minOccPerBarcode_nodeSVbegin, minOccPerBarcode_nodeSVend, maxOccPerBarcode_adjLeft, maxOccPerBarcode_adjRight, maxOccPerBarcode_nodeSVbegin, maxOccPerBarcode_nodeSVend, meanOccPerBarcode_adjLeft, meanOccPerBarcode_adjRight, meanOccPerBarcode_nodeSVbegin, meanOccPerBarcode_nodeSVend, medianOccPerBarcode_adjLeft, medianOccPerBarcode_adjRight, medianOccPerBarcode_nodeSVbegin, medianOccPerBarcode_nodeSVend
  
-
-
-##############################################
-if __name__ == "__main__":
-    if sys.argv == 1:
-        sys.exit("Error: missing arguments")
-
-    else:
-        main(sys.argv[1:])
-

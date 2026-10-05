@@ -23,8 +23,6 @@
 
 import pysam
 import sys
-import argparse
-import subprocess
 import statistics
 #output
 from prettytable import PrettyTable
@@ -66,30 +64,28 @@ class Barcode:
 #####################################################################################################
 
 
-def main() :
-    """ Main method """
-
-    #####################################################################################################
-    #Arguments
-    #####################################################################################################
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument( "-b", "--bam", metavar="<sort_bam_file>", help= "Bam file out of a mapping linked-reads/reference and with BX tag", type=str, required=True)
-    parser.add_argument( "-s", "--molecule_max_size", metavar="<molecule_max_size>", help="Maximum size between two reads to share a same barcode and from the same molecule [default=100000]",type=int, required=False, default=100000)
-    parser.add_argument( "-G", "--graph_output", metavar="<graphe_output_path/name_file>", help="Path/Name_file for the output graph.png [default=LR_Stats_graph.png]", type=str, required=False, default="LRStats_graph.png")
-    parser.add_argument( "-o", "--output_table", metavar="<output_table_path/name_file>",help="Path/Name_file for the output table.csv [default=LR_Stats_table.csv] ", type=str, required=False, default="LRStats_table.csv")
-    parser.add_argument( "-g", "--genome_size", metavar="<genome_size>", help="Genome size required to calculate depth", type=int, required=False, default=0)
-    parser.add_argument( "-r", "--read_size", metavar="<read_size>", help="Read size required to calculate depth", type=int, required=False, default=150)
+def add_subparser(subparsers):
+    p = subparsers.add_parser("lr-stats", help="Analyze the characteristics of linked-read data")
+    p.add_argument( "-b", "--bam", metavar="<sort_bam_file>", help= "Bam file out of a mapping linked-reads/reference and with BX tag", type=str, required=True)
+    p.add_argument( "-s", "--molecule_max_size", metavar="<molecule_max_size>", help="Maximum size between two reads to share a same barcode and from the same molecule [default=100000]",type=int, required=False, default=100000)
+    p.add_argument( "-G", "--graph_output", metavar="<graphe_output_path/name_file>", help="Path/Name_file for the output graph.png [default=LR_Stats_graph.png]", type=str, required=False, default="LRStats_graph.png")
+    p.add_argument( "-o", "--output_table", metavar="<output_table_path/name_file>",help="Path/Name_file for the output table.csv [default=LR_Stats_table.csv] ", type=str, required=False, default="LRStats_table.csv")
+    p.add_argument( "-g", "--genome_size", metavar="<genome_size>", help="Genome size required to calculate depth", type=int, required=False, default=0)
+    p.add_argument( "-r", "--read_size", metavar="<read_size>", help="Read size required to calculate depth", type=int, required=False, default=150)
+    p.set_defaults(func=main, _parser = p)
 
 
-    args = parser.parse_args()
+def main(args):
+    if len(sys.argv) == 2:   # no args
+        args._parser.print_help()
+        sys.exit(1)
+
     input = args.bam
     mol_max_size = args.molecule_max_size 
     output_histo = args.graph_output
     out_table = args.output_table
     genome_size = args.genome_size
     read_size = args.read_size
-
 
     #####################################################################################################
     ### Parsing of bam file to create dictionary {barcode:(start,end)}
@@ -105,7 +101,7 @@ def main() :
         for sq in bam_file.header["SQ"]:
             genome_size = genome_size + sq["LN"]
 
-    print("Genome_size:",genome_size)
+    print("Genome_size:",genome_size, file = sys.stderr)
 
     for read in bam_file.fetch():
         nb_read +=1
@@ -418,7 +414,7 @@ def main() :
     plt.show()
     plt.savefig(output_histo)
 
-    print(f"The graphics have been saved as '{output_histo}'")
+    print(f"The graphics have been saved as '{output_histo}'", file = sys.stderr)
     data = [
         ["Number of reads", nb_read, nb_reads_mol, nb_read_filtmore3R],
         ["Number of barcodes", len(dico_Barcode), nb_bc_mol, nb_bc_more3R],
@@ -467,16 +463,4 @@ def main() :
 
     # Sauvegarde en CSV
     df.to_csv(out_table, index=False)
-    print(f"The table have been saved as '{out_table}'")
-
-
-
-# Run function main
-if __name__ == "__main__":
-    if sys.argv == 1:
-        sys.exit("Error: missing arguments")
-
-    else:
-        main(sys.argv[1:])
-
-
+    print(f"The table have been saved as '{out_table}'", file = sys.stderr)

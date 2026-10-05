@@ -24,30 +24,20 @@
 Module 'construct_graph_classes.py': Create the GFA graph file.
 """
 
-from __future__ import print_function
-import argparse
-import os
 import sys
 import pickle
 from collections import OrderedDict
-from Bio import SeqIO
-from classes_creationGFA import Chrom, SV
+from pysam import FastxFile
+from . import Chrom, SV
 
 
 #pylint: disable=line-too-long, disable=trailing-whitespace, disable=too-many-function-args
 
 
-#################
-# Main function.
-#################
+def add_subparser(subparsers):
+    p = subparsers.add_parser("construct-graph", help="Create the GFA graph file")
 
-def main(args):
-    """
-    Main method
-    """
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
+    p.add_argument(
         "-v",
         "--vcf",
         metavar="<inputVCF>",
@@ -55,7 +45,7 @@ def main(args):
         nargs=1,
         required=True)
 
-    parser.add_argument(
+    p.add_argument(
         "-r",
         "--ref",
         metavar="<referenceGenome>",
@@ -63,13 +53,19 @@ def main(args):
         nargs=1,
         required=True)
 
-    parser.add_argument(
+    p.add_argument(
         "-o",
         "--output",
         metavar="<outputGFAFile>",
         type=str)
+    p.set_defaults(func=main, _parser = p)
 
-    args = parser.parse_args()
+
+def main(args):
+    '''Create the GFA graph file'''
+    if len(sys.argv) == 2:   # no args
+        args._parser.print_help()
+        sys.exit(1)
 
     inputVCF = args.vcf[0]
     reference_fasta = args.ref[0]
@@ -84,10 +80,9 @@ def main(args):
     #A. For each chrom of the reference genome, create a Chrom object.
     ###################################################################
     chromDict = {}
-    with open(reference_fasta, "r", encoding='UTF-8') as refFile:
-        for record in SeqIO.parse(refFile, "fasta"):
-            chr_id, chr_seq = str(record.id), str(record.seq)
-            chromDict[chr_id] = Chrom(chr_id, chr_seq)
+    with FastxFile(reference_fasta) as refFile:
+        for record in refFile:
+            chromDict[record.name] = Chrom(record.name, record.sequence)
 
     #####################################################
     #B. For each SV of the VCF file, create a SV object.
@@ -335,11 +330,3 @@ def associate_GFANode_To_SVsBkptsAdj(list_of_SV_objects, node_start, node_end, g
         # b2.right
         if sv.coords[1] == node_start+1:
             sv.gfaNodes.append(gfaNode_id)
-
-##############################################
-if __name__ == "__main__":
-    if sys.argv == 1:
-        sys.exit("Error: missing arguments")
-
-    else:
-        main(sys.argv[1:])
