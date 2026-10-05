@@ -34,11 +34,7 @@ from decimal import Decimal
 from collections import deque
 from collections import defaultdict
 
-
-#from pgGraphs.graph import Graph
-from gfagraphs.graph import Graph
-#from pgGraphs.abstractions import Orientation
-from gfagraphs.abstractions import Orientation
+from .graph import Graph, Orientation
 
 #pylint: disable=line-too-long, disable=trailing-whitespace, disable=too-many-function-args
 
@@ -130,13 +126,7 @@ def main(args):
     with open(pickleFile, "rb") as pf:
         chromDict = pickle.load(pf)
 
-    gfa_graph:Graph = Graph(
-        gfa_file=inputGFA,
-        with_sequence=False,
-        with_reverse_edges=True,
-        low_memory=False,
-    )
-    gfa_graph.compute_orientations()
+    gfa_graph:Graph = Graph(gfa_file=inputGFA)
 
     svsDict = {}
     gfaNode2svRegionsDict = {}

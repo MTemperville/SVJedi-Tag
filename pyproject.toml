@@ -13,7 +13,6 @@ dependencies = [
     'pandas',
     'seaborn',
     'tharos-pytools',
-    'gfagraphs'
 ]
 
 [project.scripts]
