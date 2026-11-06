@@ -31,7 +31,7 @@ from . import construct_graph, predict_genotype
 
 def add_subparser(subparsers):
     p = subparsers.add_parser("run", help="Run the full SVJedi-Tag pipeline")
-    p.add_argument("--input", required=True)
+    #p.add_argument("--input", required=True)
     p.add_argument(
         "-v", 
         "--vcf", 

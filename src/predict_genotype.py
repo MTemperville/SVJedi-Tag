@@ -180,6 +180,10 @@ def main(args):
             if int(mapq) < 30:
                 continue
 
+            if "VX:i:" in line:
+                if line.split("VX:i:")[1].split(" ")[0].split("\t")[0] == "0" :
+                    continue
+
             #2. Get the barcode ID.
             ######################
             # if "BX:Z:" in readID:

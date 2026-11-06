@@ -42,7 +42,6 @@ def add_subparser(subparsers):
         "--vcf",
         metavar="<inputVCF>",
         type=str,
-        nargs=1,
         required=True)
 
     p.add_argument(
@@ -50,7 +49,6 @@ def add_subparser(subparsers):
         "--ref",
         metavar="<referenceGenome>",
         type=str,
-        nargs=1,
         required=True)
 
     p.add_argument(
@@ -67,8 +65,8 @@ def main(args):
         args._parser.print_help()
         sys.exit(1)
 
-    inputVCF = args.vcf[0]
-    reference_fasta = args.ref[0]
+    inputVCF = args.vcf
+    reference_fasta = args.ref
 
     if args.output:
         graph_file_name = args.output

@@ -10,7 +10,7 @@ mkdir -p testAuto/output_test
 rm -f testAuto/output_test/*
 
 date
-svjedi-tag -v $VCF -r $REF -q $LR -o $OUTPUT
+svjedi-tag run -v $VCF -r $REF -q $LR -o $OUTPUT
 
 
 # Automatic test
